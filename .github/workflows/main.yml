@@ -1,0 +1,31 @@
+name: Build Static Expo Web
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build static web files
+        run: npx expo export --output-dir=web-build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: web-build
+          path: web-build
